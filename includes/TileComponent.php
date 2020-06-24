@@ -36,7 +36,7 @@ class TileComponent {
     }
 
     private function parseArgs($args){
-        $allowedArgs = ['size', 'icon', 'title', 'badge', 'color', 'images', 'href', 'grid'];
+        $allowedArgs = ['size', 'icon', 'title', 'badge', 'color', 'href', 'grid'];
 
         foreach($args as $name => $arg){
             if(in_array($name, $allowedArgs)){
