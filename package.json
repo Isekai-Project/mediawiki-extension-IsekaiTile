@@ -1,0 +1,12 @@
+{
+  "name": "isekai-tile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build-tile-css",
+    "build-tile-css": "lessc src/tile/tile.less > modules/tile/tile.css"
+  },
+  "author": "hyperzlib",
+  "license": "GPL-2.0"
+}
