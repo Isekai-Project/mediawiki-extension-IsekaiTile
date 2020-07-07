@@ -499,6 +499,7 @@ isekai.tile.init = function () {
             this.options = $.extend({}, TileDefaultConfig, options);
             this.element = element;
             this.hasIcon = false;
+            this.hasBranding = false;
 
             this._fixSizeCallback = this.resize.bind(this);
 
@@ -530,6 +531,10 @@ isekai.tile.init = function () {
 
             if(element.find('.icon').length > 0){
                 this.hasIcon = true;
+            }
+
+            if(element.find('.branding-bar')){
+                this.hasBranding = true;
             }
     
             if (o.effect.indexOf("hover-") > -1) {
@@ -655,7 +660,18 @@ isekai.tile.init = function () {
 
             if(this.hasIcon){
                 var fontSize = height * 0.33;
-                this.element.find('.icon').css('font-size', fontSize);
+                var iconDom = this.element.find('.icon');
+                iconDom.css('font-size', fontSize + 'px');
+
+                if(this.hasBranding){ //计算与标签的重叠
+                    var iconBottom = (height + fontSize) / 2;
+
+                    var brandingTop = height - this.element.find('.branding-bar').outerHeight();
+                    var overlap = iconBottom - brandingTop + (height * 0.1);
+                    if(overlap > 0){
+                        iconDom.css('padding-bottom', overlap + 'px');
+                    }
+                }
             }
         }
     
@@ -736,15 +752,12 @@ isekai.tile.init = function () {
     };
 
     function getElementOptions(element){
-        var attrNames = element[0].getAttributeNames();
         var options = {};
-
-        for(var i = 0; i < attrNames.length; i ++){
-            var key = attrNames[i];
-            if(key.startsWith('data-')){
-                options[key.substr(5)] = element[0].getAttribute(key);
+        $.each(element[0].attributes, function (index, attribute){
+            if(attribute.name.startsWith('data-')){
+                options[attribute.name.substr(5)] = attribute.value;
             }
-        }
+        });
 
         return options;
     }
